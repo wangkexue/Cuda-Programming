@@ -1,0 +1,30 @@
+Since the test use 1000 iterations, we need to do re-initializatin before each iteration,
+instead of a cudaMemset, I initialize the global histogram in the kernel.
+
+First Version: No shared memory, 2D blocks/ 2D grids. One point processed per thread.
+Accelerated rate: 11.072 / 2.858 = 3.87.
+    Timing 'ref_2dhisto' started
+        GetTimeOfDay Time (for 1000 iterations) = 11.072
+        Clock Time        (for 1000 iterations) = 11.06
+    Timing 'ref_2dhisto' ended
+    Timing 'opt_2dhisto' started
+        GetTimeOfDay Time (for 1000 iterations) = 2.858
+        Clock Time        (for 1000 iterations) = 2.85
+    Timing 'opt_2dhisto' ended
+
+    Test PASSED
+Second Version: No shared memory, 1D blocks/ 1D grids. Process point in stride way.
+Accelerated rate: 11.2 / 2.52 = 4.44
+Improvement than version 1: (4.44 - 3.87) / 3.87 = 14.7%.
+Summary: no much improvement.
+    Timing 'ref_2dhisto' started
+        GetTimeOfDay Time (for 1000 iterations) = 11.207
+        Clock Time        (for 1000 iterations) = 11.19
+    Timing 'ref_2dhisto' ended
+    Timing 'opt_2dhisto' started
+        GetTimeOfDay Time (for 1000 iterations) = 2.52
+        Clock Time        (for 1000 iterations) = 2.52
+    Timing 'opt_2dhisto' ended
+    Test PASSED
+
+
